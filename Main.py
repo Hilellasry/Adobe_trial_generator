@@ -2,9 +2,12 @@ import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import urllib.request
 from selenium.webdriver.common.keys import Keys
 import time
+import pyperclip
 
 
 
@@ -23,10 +26,13 @@ print(driver.title)
 driver.execute_script("window.open('about:blank', 'tempmailtab');")
 driver._switch_to.window("tempmailtab")
 driver.get("https://temp-mail.org/en/")
-driver._switch_to.window("adobetab")
-driver.find_element(By.CLASS_NAME,"input-box-col").click()
+driver._switch_to.window("tempmailtab")
+wait = WebDriverWait(driver, timeout=20)
+wait.until(EC.text_to_be_present_in_element(By.ID,"mail"), "@")
+mail = driver.find_element(By.ID,"mail").text
 #print(temp_mail)
-
+#mail = pyperclip.paste()
+print(mail)
 
 #if(driver.title != "Business Trial Sign Up"):
    # print("ERROR: the adobe webstie been enable to load" + " your website is:" + driver.title)
