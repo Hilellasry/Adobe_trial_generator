@@ -45,6 +45,6 @@ driver.find_element(By.ID, "countryField").click()
 driver.find_element(By.CSS_SELECTOR, ".spectrum-Menu-item:nth-child(37) > .spectrum-Menu-itemLabel").click()
 
 #Phone
-driver.find_element(By.NAME, "businessPhone").send_keys(random.sample(range(0, 9), 7))
+driver.find_element(By.NAME, "businessPhone").send_keys(str(random.sample(range(0, 9), 7)))
 
 

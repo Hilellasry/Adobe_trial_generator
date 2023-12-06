@@ -64,3 +64,11 @@ driver.find_element(By.CSS_SELECTOR, ".spectrum-Menu-item:nth-child(1) > .spectr
 #countryField
 driver.find_element(By.ID, "countryField").click()
 driver.find_element(By.CSS_SELECTOR, ".spectrum-Menu-item:nth-child(37) > .spectrum-Menu-itemLabel").click()
+
+#Phone
+driver.find_element(By.NAME, "businessPhone").send_keys(str(random.sample(range(0, 9), 7)))
+
+#continue
+driver.find_element(By.ID, "TrialsForm__continueButton__3RMjG").click()
+
+
