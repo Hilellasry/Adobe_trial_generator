@@ -77,7 +77,7 @@ driver.find_element(By.ID, "TrialsForm__continueButton__3RMjG").click()
 #ActionChains(driver).move_to_element(continue_button).click()
 
 
-
+#wait for page to load
 try:
     myElem = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "password")))
     print("Page is ready!")
@@ -86,6 +86,24 @@ except TimeoutException:
 
 #password
 driver.find_element(By.NAME, "password").send_keys(password)
-time.sleep(0.8)
+time.sleep(1)
 driver.find_element(By.NAME, "submit").click()
-time.sleep(10)
+
+#wait for page to load
+try:
+    myElem = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "password")))
+    print("Page is ready!")
+except TimeoutException:
+    print("Loading took too much time!")
+#month
+driver.find_element(By.ID, "Signup-DateOfBirthChooser-Month-value").click()
+
+
+#YEAR
+driver.find_element(By.CSS_SELECTOR, ".spectrum-Menu-item:nth-child(4) > .spectrum-Menu-itemLabel").click()
+driver.find_element(By.NAME, "bday-year").send_keys(random.randint(1990, 2004))
+driver.find_element(By.NAME, "submit").click()
+
+driver._switch_to.window("tempmailtab")
+
+WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CLASS_NAME, "col-box"))).click()
