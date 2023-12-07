@@ -7,13 +7,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common import NoSuchElementException, ElementNotInteractableException
 import urllib.request
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import TimeoutException
 import time
 import random
 import string
 import pyperclip
 
 
-
+password = "1633rosH!"
 
 
 #start webdriver
@@ -45,6 +46,7 @@ print(mail)
 driver._switch_to.window("adobetab")
 driver.get("https://commerce.adobe.com/business-trial/sign-up?items%5B0%5D%5Bid%5D=D88531E5A20E1D8D87D1E1308E6F4ADE&cli=adobe_com_cct&lang=en&co=US&promoid=RBS7NL39&mv=other%2Caffiliate&mv2=red&sid=78654bee-de13-463f-89bb-a900cc257fe2")
 #input---------------------------------------------------
+
 #mail
 driver.find_element(By.NAME, "email").send_keys(mail)
 
@@ -64,12 +66,26 @@ driver.find_element(By.CSS_SELECTOR, ".spectrum-Menu-item:nth-child(1) > .spectr
 #countryField
 driver.find_element(By.ID, "countryField").click()
 driver.find_element(By.CSS_SELECTOR, ".spectrum-Menu-item:nth-child(37) > .spectrum-Menu-itemLabel").click()
-
+time.sleep(0.1)
 #Phone
 driver.find_element(By.NAME, "businessPhone").send_keys(str(random.sample(range(0, 9), 7)))
 
-time.sleep(6)
-#continue
+#continue 
+driver.execute_script("arguments[0].scrollIntoView(true);", driver.find_element(By.ID, "TrialsForm__continueButton__3RMjG"))
+
 driver.find_element(By.ID, "TrialsForm__continueButton__3RMjG").click()
+#ActionChains(driver).move_to_element(continue_button).click()
 
 
+
+try:
+    myElem = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "password")))
+    print("Page is ready!")
+except TimeoutException:
+    print("Loading took too much time!")
+
+#password
+driver.find_element(By.NAME, "password").send_keys(password)
+time.sleep(0.8)
+driver.find_element(By.NAME, "submit").click()
+time.sleep(10)
