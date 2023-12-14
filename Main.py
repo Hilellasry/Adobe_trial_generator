@@ -20,7 +20,6 @@ password = "1633rosH!"
 #start webdriver
 os.startfile("chromedriver_win32\\chromedriver.exe")
 
-
 driver = webdriver.Chrome()
 #driver.maximize_window()
 driver.execute_script("window.open('about:blank', 'adobetab');")
@@ -33,13 +32,11 @@ driver.get("https://temp-mail.org/en/")
 start = time.process_time()
 driver._switch_to.window("tempmailtab")
 if (time.process_time() - start) < 9:
-   time.sleep(9 - time.process_time() - start)
+    time.sleep(9 - time.process_time() - start)
 driver.find_element(By.ID,"click-to-copy").click()
 mail = pyperclip.paste()
-
 #print(temp_mail)
 #mail = pyperclip.paste()
-print(mail)
 print(mail)
 
 
@@ -86,7 +83,7 @@ except TimeoutException:
 
 #password
 driver.find_element(By.NAME, "password").send_keys(password)
-time.sleep(1)
+time.sleep(2)
 driver.find_element(By.NAME, "submit").click()
 
 #wait for page to load
@@ -95,6 +92,7 @@ try:
     print("Page is ready!")
 except TimeoutException:
     print("Loading took too much time!")
+
 #month
 driver.find_element(By.ID, "Signup-DateOfBirthChooser-Month-value").click()
 
@@ -105,5 +103,12 @@ driver.find_element(By.NAME, "bday-year").send_keys(random.randint(1990, 2004))
 driver.find_element(By.NAME, "submit").click()
 
 driver._switch_to.window("tempmailtab")
-
-WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CLASS_NAME, "col-box"))).click()
+#WebDriverWait(driver, 120).until(EC.presence_of_element_located((By.CLASS_NAME, "inbox-data-content-intro")))
+#verification_code = ''.join(filter(str.isdigit, driver.find_element(By.CLASS_NAME, "inbox-data-content-intro").text))[:6]
+verification_code = 123456
+driver._switch_to.window("adobetab")
+time.sleep(30)
+for i in range(6):
+    print(i)
+    driver.find_element(By.CSS_SELECTOR, str(f"input.spectrum-Textfield.CodeInput-Digit[data-id='CodeInput-{str(i)}']")).send_keys(str(verification_code)[i])
+time.sleep(10000)
