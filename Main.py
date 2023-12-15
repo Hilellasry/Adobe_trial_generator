@@ -28,13 +28,22 @@ driver._switch_to.window("adobetab")
 print(driver.title)
 driver.execute_script("window.open('about:blank', 'tempmailtab');")
 driver._switch_to.window("tempmailtab")
-driver.get("https://temp-mail.org/en/")
+driver.get("https://maildrop.cc/")
 start = time.process_time()
 driver._switch_to.window("tempmailtab")
-if (time.process_time() - start) < 9:
-    time.sleep(9 - time.process_time() - start)
-driver.find_element(By.ID,"click-to-copy").click()
-mail = pyperclip.paste()
+
+time.sleep(0.5)
+driver.find_element(By.XPATH,"//*[@id='gatsby-focus-wrapper']/div/section[1]/div/div[2]/div[2]/div/div[2]/div[2]/button").click()
+
+#wait for page to load
+try:
+    myElem = WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.NAME, "password")))
+    print("Page is ready!")
+except TimeoutException:
+    print("Loading took too much time!")
+
+mail = driver.find_element(By.XPATH, "//*[@id='gatsby-focus-wrapper']/div/main/div/div[1]/div/div/div[1]/div[2]/a").get_attribute("href").split(":")[1]
+
 #print(temp_mail)
 #mail = pyperclip.paste()
 print(mail)
@@ -102,10 +111,14 @@ driver.find_element(By.CSS_SELECTOR, ".spectrum-Menu-item:nth-child(4) > .spectr
 driver.find_element(By.NAME, "bday-year").send_keys(random.randint(1990, 2004))
 driver.find_element(By.NAME, "submit").click()
 
+WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.spectrum-Textfield.CodeInput-Digit[data-id='CodeInput-0']")))
+
 driver._switch_to.window("tempmailtab")
+
+driver.find_element(By.XPATH, "//*[@id='gatsby-focus-wrapper']/div/main/div/div[1]/div/div/div[1]/div[2]/button")
 #WebDriverWait(driver, 120).until(EC.presence_of_element_located((By.CLASS_NAME, "inbox-data-content-intro")))
-#verification_code = ''.join(filter(str.isdigit, driver.find_element(By.CLASS_NAME, "inbox-data-content-intro").text))[:6]
-verification_code = 123456
+verification_code = ''.join(filter(str.isdigit, driver.find_element(By.XPATH, "/html/body/table/tbody/tr/td/table/tbody/tr[1]/td/table/tbody/tr[2]/td/strong").text))
+driver.find_element(By.XPATH, "//*[@id='gatsby-focus-wrapper']/div/main/div/div[1]/div/div/div[1]/div[2]/button")
 driver._switch_to.window("adobetab")
 time.sleep(30)
 for i in range(6):

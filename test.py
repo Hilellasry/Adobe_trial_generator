@@ -9,7 +9,6 @@ import urllib.request
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import TimeoutException
-import undetected_chromedriver as uc
 import time
 import random
 import string
@@ -23,7 +22,7 @@ import pyperclip
 os.startfile("chromedriver_win32\\chromedriver.exe")
 
 
-driver = uc.Chrome(headless=False,use_subprocess=False)
+#driver = uc.Chrome(headless=False,use_subprocess=False)
 mail = "hosev81245@getmola.com"
 password = "ABCabc1234"
 #driver.get("C:\\Users\\hilellasry\\Downloads\\verification code.html")
