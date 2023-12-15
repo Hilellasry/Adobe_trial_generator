@@ -14,7 +14,7 @@ import string
 import pyperclip
 
 
-password = "1633rosH!"
+password = "1234Abcd"
 
 
 #start webdriver
