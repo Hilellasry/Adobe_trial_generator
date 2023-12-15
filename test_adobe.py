@@ -9,31 +9,13 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-class TestClickonfirstemail():
-  def setup_method(self, method):
-    self.driver = webdriver.Chrome()
-    self.vars = {}
+driver = webdriver.Chrome()
+vars = {}
   
-  def teardown_method(self, method):
-    self.driver.quit()
   
-  def test_clickonfirstemail(self):
-    self.driver.get("https://temp-mail.org/en/")
-    self.driver.set_window_size(758, 826)
-    time.sleep(15)
-    element = self.driver.find_element(By.CSS_SELECTOR, ".btn-rds:nth-child(4)")
-    actions = ActionChains(self.driver)
-    actions.move_to_element(element).perform()
-    element = self.driver.find_element(By.CSS_SELECTOR, "body")
-    actions = ActionChains(self.driver)
-    actions.move_to_element(element, 0, 0).perform()
-    self.driver.find_element(By.CSS_SELECTOR, ".d-none path").click()
-    self.driver.find_element(By.CSS_SELECTOR, "li:nth-child(2) .inboxSenderName").click()
-    element = self.driver.find_element(By.CSS_SELECTOR, ".btn-rds:nth-child(4)")
-    actions = ActionChains(self.driver)
-    actions.move_to_element(element).perform()
-    element = self.driver.find_element(By.CSS_SELECTOR, "body")
-    actions = ActionChains(self.driver)
-    actions.move_to_element(element, 0, 0).perform()
+driver.get("https://maildrop.cc/inbox/?mailbox=upset.anteater3994")
+driver.set_window_size(1536, 866)
+driver.find_element(By.CSS_SELECTOR, ".order-2 > .ml-2").click()
+driver.find_element(By.CSS_SELECTOR, ".order-2").click()
+driver.find_element(By.CSS_SELECTOR, ".order-2 > .ml-2").click()
   
-time.sleep(10)

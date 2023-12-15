@@ -22,7 +22,7 @@ import pyperclip
 os.startfile("chromedriver_win32\\chromedriver.exe")
 
 
-#driver = uc.Chrome(headless=False,use_subprocess=False)
+driver = webdriver.Chrome()
 mail = "hosev81245@getmola.com"
 password = "ABCabc1234"
 #driver.get("C:\\Users\\hilellasry\\Downloads\\verification code.html")
@@ -33,13 +33,32 @@ password = "ABCabc1234"
 
 #driver.get(mail_link)
 #WebDriverWait(driver, 100).until(EC.presence_of_element_located((By.CLASS_NAME, "inbox-data-content-intro")))
-verification_code = 123456
 
-for i in range(6):
-    print(i)
-    print(str(f'[data-id="CodeInput-{i}"]'))
-    print(str(f":input.spectrum-Textfield.CodeInput-Digit[data-id='CodeInput-{str(i)}']"))
 
-    print(str(verification_code)[i])
+driver.get("https://maildrop.cc/inbox/?mailbox=encouraging.dunlin556")
+time.sleep(0.5)
+#driver.find_element(By.XPATH,"//*[@id='gatsby-focus-wrapper']/div/section[1]/div/div[2]/div[2]/div/div[2]/div[2]/button").click()
+
+#wait for page to load
+
+#mail = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//*[@id='gatsby-focus-wrapper']/div/main/div/div[1]/div/div/div[1]/div[2]/a"))).get_attribute("href").split(":")[1]
+
+
+#print(temp_mail)
+#mail = pyperclip.paste()
+print(mail)
+
+#refresh mailbox
+#driver.find_element(By.CSS_SELECTOR, ".order-2").click()
+
+#WebDriverWait(driver, 120).until(EC.presence_of_element_located((By.CLASS_NAME, "inbox-data-content-intro")))
+
+#get verifiction code
+driver.switch_to.frame(WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'iframe'))))
+
+verification_code = ''.join(filter(str.isdigit, driver.find_element(By.CSS_SELECTOR, "strong").text))
 print(verification_code)
-time.sleep(100)
+driver.switch_to.default_content()
+print(driver.find_element(By.XPATH, "/html/body").text)
+
+#driver.find_element(By.XPATH, "//*[@id='gatsby-focus-wrapper']/div/main/div/div[1]/div/div/div[1]/div[2]/button")

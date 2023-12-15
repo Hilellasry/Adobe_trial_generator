@@ -29,20 +29,12 @@ print(driver.title)
 driver.execute_script("window.open('about:blank', 'tempmailtab');")
 driver._switch_to.window("tempmailtab")
 driver.get("https://maildrop.cc/")
-start = time.process_time()
 driver._switch_to.window("tempmailtab")
 
 time.sleep(0.5)
 driver.find_element(By.XPATH,"//*[@id='gatsby-focus-wrapper']/div/section[1]/div/div[2]/div[2]/div/div[2]/div[2]/button").click()
 
-#wait for page to load
-try:
-    myElem = WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.NAME, "password")))
-    print("Page is ready!")
-except TimeoutException:
-    print("Loading took too much time!")
-
-mail = driver.find_element(By.XPATH, "//*[@id='gatsby-focus-wrapper']/div/main/div/div[1]/div/div/div[1]/div[2]/a").get_attribute("href").split(":")[1]
+mail = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//*[@id='gatsby-focus-wrapper']/div/main/div/div[1]/div/div/div[1]/div[2]/a"))).get_attribute("href").split(":")[1]
 
 #print(temp_mail)
 #mail = pyperclip.paste()
@@ -115,13 +107,30 @@ WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTO
 
 driver._switch_to.window("tempmailtab")
 
-driver.find_element(By.XPATH, "//*[@id='gatsby-focus-wrapper']/div/main/div/div[1]/div/div/div[1]/div[2]/button")
-#WebDriverWait(driver, 120).until(EC.presence_of_element_located((By.CLASS_NAME, "inbox-data-content-intro")))
-verification_code = ''.join(filter(str.isdigit, driver.find_element(By.XPATH, "/html/body/table/tbody/tr/td/table/tbody/tr[1]/td/table/tbody/tr[2]/td/strong").text))
-driver.find_element(By.XPATH, "//*[@id='gatsby-focus-wrapper']/div/main/div/div[1]/div/div/div[1]/div[2]/button")
+
+#refresh mailbox
+time.sleep(2)
+driver.find_element(By.CSS_SELECTOR, ".order-2").click()
+
+#get verifiction code
+driver.switch_to.frame(WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'iframe'))))
+
+verification_code = ''.join(filter(str.isdigit, driver.find_element(By.CSS_SELECTOR, "strong").text))
+print(verification_code)
+driver.switch_to.default_content()
+
+
+time.sleep(0.1)
 driver._switch_to.window("adobetab")
-time.sleep(30)
+WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.spectrum-Textfield.CodeInput-Digit[data-id='CodeInput-0']")))
 for i in range(6):
     print(i)
     driver.find_element(By.CSS_SELECTOR, str(f"input.spectrum-Textfield.CodeInput-Digit[data-id='CodeInput-{str(i)}']")).send_keys(str(verification_code)[i])
-time.sleep(10000)
+
+
+try:
+    myElem = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "password")))
+    print("Page is ready!")
+except TimeoutException:
+    print("Loading took too much time!")
+print(driver.find_element(By.XPATH, "/html/body").text)
